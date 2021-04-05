@@ -1,23 +1,63 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="GitLab Pages">
-    <title>Plain HTML site using GitLab Pages</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="navbar">
-      <a href="https://pages.gitlab.io/plain-html/">Plain HTML Example</a>
-      <a href="https://gitlab.com/pages/plain-html/">Repository</a>
-      <a href="https://gitlab.com/pages/">Other Examples</a>
-    </div>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Stefan Korecko" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet"
+          href="css/treesBlog.css"
+          media="screen"/>
 
-    <h1>Hello World!</h1>
 
-    <p>
-      This is a simple plain-HTML website on GitLab Pages, without any fancy static site generator.
-    </p>
-  </body>
+    <title>My Blog about Trees and Other Things</title>
+</head>
+
+<body>
+<header>
+    <h1>My Blog about Trees and Other Things</h1>
+
+
+<div class="menu">
+    <button id="menuTitle">Menu</button>
+
+    <nav id="menuIts" class="menu mnHide">
+            <a href="#welcome">Welcome!</a>
+            <a href="#articles">Articles</a>
+            <a href="#opinions">Visitor opinions</a>
+            <a href="#addOpinion">Add your opinion</a>
+    </nav>
+
+</div>
+
+</header>
+
+<main id="router-view">
+</main>
+
+<footer>
+    Ján ŠK. Trieska <br>
+    (c) 2018-21
+</footer>
+
+
+<!--Templates for html, dynamically inserted by the router -->
+
+<script id="template-welcome" type="text/template">
+    <article>
+        <h2>Welcome!</h2>
+        <p>
+            Welcome to my page. My name is <b>Ján ŠK. Trieska</b>. I live in <i>Woodly Woodens</i>. I am a <i>woodcutter</i>.
+            I love trees and I would like to tell you something about my most favourite ones.
+        </p>
+    </article>
+</script>
+
+
+<!--JavaScript code, inserted as a module-->
+<script  type="module" src="js/index.js"></script>
+
+
+
+
+</body>
 </html>
-
