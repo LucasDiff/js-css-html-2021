@@ -19,7 +19,7 @@ html {
 
 a:link, a:visited{
     text-decoration: none;
-    color: rgb(63, 38, 0);
+        color: rgb(63, 38, 0);
 }
 
 a:hover{
@@ -35,7 +35,7 @@ body > header{
     border-radius: 1rem;
     padding:0.5rem;
     text-align:center;
-    background-color: rgb(204,153,0);
+
 }
 
 
@@ -48,7 +48,7 @@ main footer{
 }
 
 main > article{
-    background-color: rgb(255, 246, 152);
+    background-color: rgb(224, 227, 248);
     border-radius: 1rem;
     padding: 0.3rem;
     margin-bottom: 1rem;
@@ -60,13 +60,13 @@ main > article > *{
 }
 
 main > article > h2{
-    background-color: rgb(253, 255, 162);
+    background-color: rgb(214, 219, 243);
     border-radius: 1rem;
     margin: 0;
 }
 
 body > aside{
-    background-color: rgb(253, 255, 162);
+    background-color: rgb(203, 224, 243);
     border-radius: 1rem;
     color: grey;
     font-size: 0.9em;
@@ -122,7 +122,7 @@ body > footer{
     max-width: 8em;
     min-width: 7em;
     border-radius: 0.5rem;
-    background-color: rgb(204,153,0);
+    background-color: rgb(134, 152, 234);
 }
 
 #menuIts > a {
@@ -131,14 +131,14 @@ body > footer{
 
 #menuTitle{
     border: 0;
-    background-color: rgb(204,153,0);
+    background-color: rgb(138, 130, 255);
     outline:none;
 }
 
 #menuTitle:hover, #menuIts > a:hover{
     text-decoration: none;
     color: #982d3b;
-    background-color: rgb(255,246,214);
+    background-color: rgb(94, 98, 255);
 }
 
 .mnHide {display:none;}

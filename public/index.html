@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="author" content="Stefan Korecko" />
+    <meta name="author" content="Lukas Nemeth" />
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet"
           href="css/treesBlog.css"
           media="screen"/>
+    <link rel="stylesheet" href="css/screenStyle.css" />
 
-
-    <title>My Blog about Trees and Other Things</title>
+    <title>Chess</title>
 </head>
 
 <body>
 <header>
-    <h1>My Blog about Trees and Other Things</h1>
+    <h2>In this blog you can expect basic information about chess. Its history from the early stages. Chess openings and chess puzzles.</h2>
 
 
 <div class="menu">
@@ -35,8 +35,8 @@
 </main>
 
 <footer>
-    Ján ŠK. Trieska <br>
-    (c) 2018-21
+    Lukáš Németh <br>
+    (c) 2021
 </footer>
 
 
@@ -44,47 +44,179 @@
 
 <script id="template-welcome" type="text/template">
     <article>
-        <h2>Welcome!</h2>
+        <h2>Welcome in the Chess blog</h2>
         <p>
-            Welcome to my page. My name is <b>Ján ŠK. Trieska</b>. I live in <i>Woodly Woodens</i>. I am a <i>woodcutter</i>.
-            I love trees and I would like to tell you something about my most favourite ones.
+           I am Lukas Nemeth a chess player. And in this blog we will talk about the most important stuff you need to know before playing chess.
         </p>
     </article>
 </script>
 
 <script id="template-articles" type="text/template">
-    <article  id="artPine">
-        <h2>Pine</h2>
-        <figure>
-            <img src="fig/pineBw.png" height="150"
-                 title="fig.pine" alt="pine" />
-        </figure>
+    <h2>Content</h2>
 
-        <p>Pine is a softwood coniferous tree.</p>
-
-        <dl> <!-- zoznam moze byt iba mimo odsekov -->
-            <dt>Latin name: <!-- uzatvaracia znacka nemusi byt uvedena -->
-            <dd>Pinus
-            <dt>Division:</dt>
-            <dd>Pinophyta</dd>
-            <dt>Class:</dt>
-            <dd>Pinopsida</dd>
-        </dl>
-    </article>
-
-    <article  id="artOak">
-        <h2>Oak</h2>
-        <figure>
-            <img src="fig/oak.png" height="150"
-                 title="fig.oak" alt="oak" />
-        </figure>
+    <p>
+        Displaying page {{currPage}} of {{pageCount}} pages.
+    </p>
+    <nav>
         <p>
-            Oak is a deciduous tree with hardwood. It lives long and grows slowly. 
-            Its leaves are simple, lobate and fall off before the winter.
+            {{#prevPage}}
+            <a href="#articles/{{prevPage}}/{{pageCount}}"><< Previous page</a>
+            {{/prevPage}}
+            {{#nextPage}}
+            <a href="#articles/{{nextPage}}/{{pageCount}}">Next page >></a>
+
+            {{/nextPage}}
         </p>
+    </nav>
+
+
+    {{#articles}}
+    <article>
+        <h1>{{title}}</h1>
+        {{#imageLink}}<img src="{{imageLink}}" class="image" alt="obrazok"><br>{{/imageLink}}
+        {{#dateCreated}}<p class="date">{{dateCreated}}</p>{{/dateCreated}}
+        <p>
+            by {{author}}
+            <br>
+            Content:{{content}}
+        </p>
+        {{#tags}}<p class="tagsTag"> {{tags}}</p>{{/tags}}
+
+    </article>
+    {{/articles}}
+
+
+    <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+
+</script>
+
+<script id="template-articles-error" type="text/template">
+
+    <article>
+        <h2>Articles acquisition failed</h2>
+        <p>
+            {{errMessage}}
+        </p>
+    </article>
+    <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+
+</script>
+
+<script id="template-opinions" type="text/template">
+    <article  id="artOpinions">
+        {{#opinions}}
+        <section>
+            <div class="form-container-top">
+                <p class="form-name">
+                    {{#name}} {{name}}{{/name}}
+                </p>
+
+                <p class="form-email">
+                    {{#email}}{{email}} {{/email}}
+                </p>
+                <p class="form-email">
+                    {{#gender}} {{gender}} {{/gender}}
+                </p>
+                <p class="form-email">
+                    {{created}}
+                </p>
+            </div>
+
+            <div class="form-container">
+                <img src="{{url}}" class="image" alt="Picture">
+                <p class="form">
+
+                    {{#komentar}}Komentár: {{komentar}} <br><br>{{/komentar}}
+                    {{#suhlas}}Informovanosť: {{suhlas}} {{/suhlas}}
+                </p>
+            </div>
+            {{#carTag}}<p class="tagsTag"> #{{carTag}}</p>{{/carTag}}
+        </section>
+        {{/opinions}}
         <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
     </article>
-</script>    
+</script>
+
+<script id="template-addOpinion" type="text/template">
+    <article  id="artOpnFrm">
+        <div class="a">
+
+            <h2> Comment form : </h2>
+            <form id="opnFrm">
+                <div class="req">
+                    <label for="nameElm">Your name :</label>
+
+                    <input type="text" name="login" id="nameElm" size="20" maxlength="50" placeholder="Enter your name here" required />
+                </div>
+                <br><br>
+                <div class="req">
+                    <label for="emailElm">Enter you email:</label>
+
+                    <input type="email" name="email" id="emailElm" size="20" maxlength="50" pattern=".+@gmail.com" placeholder="Enter your name email here" required />
+                </div>
+                <br><br>
+
+                <label for="urlElm">Your url:</label>
+
+                <input type="url" name="url" id="urlElm" size="20" maxlength="100" pattern="https://.*" placeholder="Enter url of your image here" />
+
+                <br><br>
+
+                <label for="femaleElm">female</label>
+
+                <input type="radio" name="gender" id="femaleElm" size="20" maxlength="50"  value="female"  />
+
+                <br><br>
+
+                <label for="maleElm">male</label>
+
+                <input type="radio" name="gender" id="maleElm" size="20" maxlength="50"  value="male"  />
+
+                <br><br>
+
+
+                <label>Choose your favorite chess players :</label>
+
+                <br><br>
+
+                <label for="garryKasparovElm">Garry Kasparov</label>
+                <input type="checkbox" name="chessPlayer" id="garryKasparovElm" size="20" maxlength="50"  value="Garry Kasparov"  />
+
+                <br><br>
+
+                <label for="paulMorphyElm">Paul Morphy</label>
+                <input type="checkbox" name="chessPlayer" id="paulMorphyElm" size="20" maxlength="50"  value="Paul Morphy"/>
+
+
+
+
+                <br><br>
+
+                <label for="bobbyFischerElm">Bobby Fischer</label>
+                <input type="checkbox" name="chessPlayer" id="bobbyFischerElm" size="20" maxlength="50"  value="Bobby Fischer"/>
+
+
+                <br><br>
+
+                <label for="magnusCarlsenElm">Magnus Carlsen</label>
+                <input type="checkbox" name="chessPlayer" id="magnusCarlsenElm" size="20" maxlength="50"  value="Magnus Carlsen  "/>
+
+                <br><br>
+                <div class="req">
+                    <label for="opnElm"></label>
+
+                    <textarea name="comment" id="opnElm" cols="138" rows="3" placeholder="Express your opinion here" required></textarea>
+                </div>
+                <br><br>
+
+                <button type="submit">Send</button>
+
+            </form>
+        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+        </div>
+    </article>
+</script>
+
 
 
 <!--JavaScript code, inserted as a module-->

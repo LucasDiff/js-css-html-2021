@@ -1,0 +1,110 @@
+body {
+    background-color: white;
+}
+body > article{
+    background-color: rgb(191, 203, 206);
+    border-radius: 5rem;
+    padding: 0.3rem;
+    margin-bottom: 6rem;
+}
+:required {
+    border: 1px solid black;
+}
+
+:optional {
+    border: 1px solid lightgray;
+}
+
+
+input:invalid, textarea:invalid{
+    border-color: red;
+    background-color: rgb(255, 213, 213);
+}
+
+:out-of-range{
+    color: red;
+}
+body > article > *{
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+a:hover {
+    background-color: rgb(162, 255, 250);
+}
+header:hover {
+    background-color: rgb(109, 103, 253);
+}
+img:hover {
+    transform: rotate(180deg);
+}
+nav {
+    background-color: rgb(254, 254, 246);
+
+}
+main {
+    background-color: rgb(246, 248, 254);
+}
+h1 {
+    font-family: Helvetica, Arial, sans-serif;
+    color:rgb(6, 14, 128);
+    font-size:4vw;
+}
+h2 {
+    font-family: Helvetica, Arial, sans-serif;
+    color:rgb(5, 2, 100);
+    font-size:2vw;
+}
+p {
+    font-family: Helvetica, Arial, sans-serif;
+    color:rgb(109, 98, 139);
+    font-size:1vw;
+}
+li {
+    font-family: Helvetica, Arial, sans-serif;
+    color:rgb(109, 98, 139);
+    font-size:2vw;
+}
+a {
+    font-family: Helvetica, Arial, sans-serif;
+    color:rgb(109, 98, 139);
+    font-size:2vw;
+}
+table, th, td {
+    border: 1px solid black;
+    font-size:1vw;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+
+div.a {
+    text-align: center;
+}
+div.req {
+    color : rgb(251, 106, 106);
+    background-color: rgb(246, 244, 240);
+}
+div.r {
+    text-align: right;
+}
+aside {
+    width: 30%;
+    padding-left: 10px;
+    margin-left: 10px;
+    float: left;
+    font-style: italic;
+    background-color: lightgray;
+}
+header {
+    overflow: hidden;
+    background-color: #9fb3f1;
+    padding: 20px 10px;
+}
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(9, 9, 136);
+    color: white;
+    text-align: center;
+}

@@ -1,37 +1,43 @@
-/*
- * Created by Stefan Korecko, 2020-21
- * Opinions form processing functionality
- */
 
-/*
-This function works with the form:
 
-<form id="opnFrm">
-    <label for="nameElm">Your name:</label>
-    <input type="text" name="login" id="nameElm" size="20" maxlength="50" placeholder="Enter your name here" required />
-    <br><br>
-    <label for="opnElm">Your opinion:</label>
-    <textarea name="comment" id="opnElm" cols="50" rows="3" placeholder="Express your opinion here" required></textarea>
-    <br><br>
-    <input type="checkbox" id="willReturnElm" />
-    <label for="willReturnElm">I will definitely return to this page.</label>
-    <br><br>
-    <button type="submit">Send</button>
-</form>
-
- */
 export default function processOpnFrmData(event){
-    //1.prevent normal event (form sending) processing
+
+    this.opinionsFrmElm = document.getElementById("opnFrm");
+
     event.preventDefault();
+    let pos = document.getElementsByName('gender');
+    let poss = document.getElementsByName('chessPlayer');
+    let nopGender;
+    let nopChessPlayer;
 
-    //2. Read and adjust data from the form (here we remove white spaces before and after the strings)
-    const nopName = document.getElementById("nameElm").value.trim();
-    const nopOpn = document.getElementById("opnElm").value.trim();
-    const nopWillReturn = document.getElementById("willReturnElm").checked;
 
-    //3. Verify the data
-    if(nopName==="" || nopOpn===""){
-        window.alert("Please, enter both your name and opinion");
+    const nopName = this.opinionsFrmElm.elements["nameElm"].value.trim();
+    const nopEmail = this.opinionsFrmElm.elements["emailElm"].value.trim();
+    const nopUrl = this.opinionsFrmElm.elements["urlElm"].value.trim();
+    const nopOpn = this.opinionsFrmElm.elements["opnElm"].value.trim();
+    if (pos[0].checked) {
+        nopGender = pos[0].value;
+    } else {
+        nopGender = pos[1].value;
+    }
+    if(poss[0].checked) {
+        nopChessPlayer = poss[0].value;
+    } else if(poss[1].checked){
+        nopChessPlayer = poss[1].value;
+    } else if(poss[2].checked){
+        nopChessPlayer = poss[2].value;
+    } else {
+        nopChessPlayer = poss[3].value;
+    }
+
+    if (nopName === "") {
+        window.alert("Please, enter your name");
+        return;
+    } else if (nopOpn === "") {
+        window.alert("Please, enter your opinion");
+        return;
+    } else if (nopEmail === "") {
+        window.alert("Please, enter your email");
         return;
     }
 
@@ -39,24 +45,23 @@ export default function processOpnFrmData(event){
     const newOpinion =
         {
             name: nopName,
+            email: nopEmail,
+            url: nopUrl,
+            gender: nopGender,
+            chessPlayer : nopChessPlayer,
             comment: nopOpn,
-            willReturn: nopWillReturn,
             created: new Date()
-
         };
-
 
     let opinions = [];
 
-    if(localStorage.myTreesComments){
-        opinions=JSON.parse(localStorage.myTreesComments);
+    if(localStorage.myChessComments){
+        opinions=JSON.parse(localStorage.myChessComments);
     }
 
     opinions.push(newOpinion);
-    localStorage.myTreesComments = JSON.stringify(opinions);
+    localStorage.myChessComments = JSON.stringify(opinions);
 
-
-    //5. Go to the opinions
     window.location.hash="#opinions";
 
 }
