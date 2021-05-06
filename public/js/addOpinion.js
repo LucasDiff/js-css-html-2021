@@ -1,6 +1,5 @@
-
-
 export default function processOpnFrmData(event){
+
 
     this.opinionsFrmElm = document.getElementById("opnFrm");
 
@@ -15,20 +14,13 @@ export default function processOpnFrmData(event){
     const nopEmail = this.opinionsFrmElm.elements["emailElm"].value.trim();
     const nopUrl = this.opinionsFrmElm.elements["urlElm"].value.trim();
     const nopOpn = this.opinionsFrmElm.elements["opnElm"].value.trim();
+    const nopData = this.opinionsFrmElm.elements["dtElm"].value.trim();
     if (pos[0].checked) {
         nopGender = pos[0].value;
     } else {
         nopGender = pos[1].value;
     }
-    if(poss[0].checked) {
-        nopChessPlayer = poss[0].value;
-    } else if(poss[1].checked){
-        nopChessPlayer = poss[1].value;
-    } else if(poss[2].checked){
-        nopChessPlayer = poss[2].value;
-    } else {
-        nopChessPlayer = poss[3].value;
-    }
+
 
     if (nopName === "") {
         window.alert("Please, enter your name");
@@ -46,10 +38,11 @@ export default function processOpnFrmData(event){
         {
             name: nopName,
             email: nopEmail,
-            url: nopUrl,
+            image1: nopUrl,
             gender: nopGender,
             chessPlayer : nopChessPlayer,
             comment: nopOpn,
+            data: nopData,
             created: new Date()
         };
 
@@ -65,3 +58,4 @@ export default function processOpnFrmData(event){
     window.location.hash="#opinions";
 
 }
+

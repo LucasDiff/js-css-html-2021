@@ -4,9 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="author" content="Lukas Nemeth" />
     <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet"
-          href="css/treesBlog.css"
-          media="screen"/>
     <link rel="stylesheet" href="css/screenStyle.css" />
 
     <title>Chess</title>
@@ -14,31 +11,29 @@
 
 <body>
 <header>
-    <h1>Chess</h1>
-    <h2>In this blog you can expect basic information about chess. Its history from the early stages. Chess openings and chess puzzles.</h2>
+    <div class="a">
+        <h1>Chess</h1>
+        <h2>Basic information about chess. Its history from the early stages. Chess openings and chess puzzles.</h2>
 
 
-<div class="menu">
-    <button id="menuTitle">Menu</button>
+        <div class="menu">
+            <button id="menuTitle">Menu</button>
 
-    <nav id="menuIts" class="menu mnHide">
-            <a href="#welcome">Welcome!</a>
-            <a href="#articles">Articles</a>
-            <a href="#opinions">Visitor opinions</a>
-            <a href="#addOpinion">Add your opinion</a>
-    </nav>
+            <nav id="menuIts" class="menu mnHide">
+                <a href="#welcome">Welcome!</a>
+                <a href="#articles/1/88">Articles</a>
+                <a href="#opinions">Visitor opinions</a>
+                <a href="#addOpinion">Add your opinion</a>
+            </nav>
 
-</div>
-
+        </div>
+    </div>
 </header>
 
 <main id="router-view">
 </main>
 
-<footer>
-    Lukáš Németh <br>
-    (c) 2021
-</footer>
+
 
 
 <!--Templates for html, dynamically inserted by the router -->
@@ -47,9 +42,10 @@
     <article>
         <h2>Welcome in the Chess blog</h2>
         <p>
-           I am Lukas Nemeth a chess player. And in this blog we will talk about the most important stuff you need to know before playing chess.
+            I am Lukas Nemeth a chess player. And in  this blog we will talk about the most important stuff you need to know before playing chess.
         </p>
     </article>
+    <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
 </script>
 
 <script id="template-articles" type="text/template">
@@ -104,37 +100,42 @@
 </script>
 
 <script id="template-opinions" type="text/template">
+    <h2>Comments :</h2>
     <article  id="artOpinions">
         {{#opinions}}
         <section>
             <div class="form-container-top">
                 <p class="form-name">
-                    {{#name}} {{name}}{{/name}}
+                    Name: {{#name}} {{name}}{{/name}}
                 </p>
 
                 <p class="form-email">
-                    {{#email}}{{email}} {{/email}}
+                    email:  {{#email}}{{email}} {{/email}}
                 </p>
                 <p class="form-email">
-                    {{#gender}} {{gender}} {{/gender}}
+                    Gender: {{#gender}} {{gender}} {{/gender}}
                 </p>
                 <p class="form-email">
-                    {{created}}
+                    Favourite player : {{#data}}{{data}}{{/data}}
+                </p>
+                <p class="form-email">
+                    created :  {{created}}
                 </p>
             </div>
 
             <div class="form-container">
-                <img src="{{url}}" class="image" alt="Picture">
-                <p class="form">
+                <img src="{{image1}}" class="image" alt="Picture">
+                <p class="form-name">
 
-                    {{#komentar}}Komentár: {{komentar}} <br><br>{{/komentar}}
-                    {{#suhlas}}Informovanosť: {{suhlas}} {{/suhlas}}
+                    comment: {{#comment}} {{comment}}{{/comment}}
                 </p>
+                --------------------------------------------------
+
             </div>
-            {{#carTag}}<p class="tagsTag"> #{{carTag}}</p>{{/carTag}}
+
         </section>
         {{/opinions}}
-        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+
     </article>
 </script>
 
@@ -157,12 +158,21 @@
                 </div>
                 <br><br>
 
-                <label for="urlElm">Your url:</label>
+                <label for="urlElm">Your image:</label>
 
-                <input type="url" name="url" id="urlElm" size="20" maxlength="100" pattern="https://.*" placeholder="Enter url of your image here" />
+                <input type="url" name="image1" id="urlElm" size="20"  pattern="https://.*" placeholder="Enter url of your image here" />
 
                 <br><br>
+                <label for="dtElm">Choose your favourite chess player</label>
+                <input list="dtlstElm" id="dtElm" name="dtElm" />
 
+                <datalist id="dtlstElm">
+                    <option value="Magnus Carlsen">
+                    <option value="Bobby Fischer">
+                    <option value="Garry Kasparov">
+                    <option value="Paul Morphy">
+                </datalist>
+                <br><br>
                 <label for="femaleElm">female</label>
 
                 <input type="radio" name="gender" id="femaleElm" size="20" maxlength="50"  value="female"  />
@@ -176,44 +186,28 @@
                 <br><br>
 
 
-                <label>Choose your favorite chess players :</label>
+                <label>Do you accept our requirements?</label>
 
                 <br><br>
-
-                <label for="garryKasparovElm">Garry Kasparov</label>
-                <input type="checkbox" name="chessPlayer" id="garryKasparovElm" size="20" maxlength="50"  value="Garry Kasparov"  />
-
-                <br><br>
-
-                <label for="paulMorphyElm">Paul Morphy</label>
-                <input type="checkbox" name="chessPlayer" id="paulMorphyElm" size="20" maxlength="50"  value="Paul Morphy"/>
-
-
-
-
-                <br><br>
-
-                <label for="bobbyFischerElm">Bobby Fischer</label>
-                <input type="checkbox" name="chessPlayer" id="bobbyFischerElm" size="20" maxlength="50"  value="Bobby Fischer"/>
-
-
-                <br><br>
-
-                <label for="magnusCarlsenElm">Magnus Carlsen</label>
-                <input type="checkbox" name="chessPlayer" id="magnusCarlsenElm" size="20" maxlength="50"  value="Magnus Carlsen  "/>
-
+                <div class="req">
+                    <label for="reqElm">Yes</label>
+                    <input type="checkbox" name="reqElm" id="reqElm" size="5" value="Yes" required/>
+                </div>
                 <br><br>
                 <div class="req">
                     <label for="opnElm"></label>
 
-                    <textarea name="comment" id="opnElm" cols="138" rows="3" placeholder="Express your opinion here" required></textarea>
+                    <input type="text" name="comment" id="opnElm" size="72" maxlength="500" rows="3"  placeholder="Expresss your opinion here" required></input>
                 </div>
-                <br><br>
+                <div>
+                    <br><br>
+                    <button type="submit" value="Submit">Submit</button>
+                    <button type="reset" value="Reset">Reset</button>
 
-                <button type="submit">Send</button>
+                </div>
 
             </form>
-        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+
         </div>
     </article>
 </script>

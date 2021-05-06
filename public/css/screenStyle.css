@@ -79,6 +79,7 @@ table, th, td {
 div.a {
     text-align: center;
 }
+
 div.req {
     color : rgb(251, 106, 106);
     background-color: rgb(246, 244, 240);
@@ -108,3 +109,79 @@ footer {
     color: white;
     text-align: center;
 }
+img {
+    width: 25rem;
+    border-radius: 8px;
+}
+
+
+@media only screen and (min-width: 600px){
+    body{
+        min-width: 35rem;
+        max-width: 60rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+@media only screen and (max-width: 599px){
+    body{
+        width: 100%;
+    }
+}
+
+
+
+
+
+.menu {
+    text-align: left;
+    padding-left: 0.5em;
+}
+
+#menuIts{
+    position:absolute;
+    padding: 3.5em;
+    max-width: 8em;
+    min-width: 7em;
+    border-radius: 5rem;
+    background-color: rgb(134, 152, 234);
+}
+
+#menuIts > a {
+    display: block;
+}
+
+#menuTitle{
+    border: 0;
+    background-color: rgb(138, 130, 255);
+    outline:none;
+}
+
+#menuTitle:hover, #menuIts > a:hover{
+    text-decoration: none;
+    color: #982d3b;
+    background-color: rgb(94, 98, 255);
+}
+
+.mnHide {display:none;}
+
+.mnShow {display:block;}
+
+
+
+
+/***********************************************************************************************************/
+/*Properties related to the form and rendered opinions*/
+
+
+label{
+    vertical-align: top;
+    min-width: 5.5em;
+}
+
+form{
+    padding-bottom: 1em;
+}
+

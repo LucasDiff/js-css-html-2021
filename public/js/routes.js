@@ -8,7 +8,6 @@ import processOpnFrmData from "./addOpinion.js";
 export default[
 
     {
-        //the part after '#' in the url (so-called fragment):
         hash:"welcome",
         ///id of the target html element:
         target:"router-view",
@@ -18,11 +17,10 @@ export default[
                 document.getElementById("template-welcome").innerHTML
     },
     {
-        hash:"articles",
-        target:"router-view",
-        getTemplate: fetchAndDisplayArticles
+        hash: "articles",
+        target: "router-view",
+        getTemplate: createHtml4Main
     },
-
     {
         hash:"opinions",
         target:"router-view",
@@ -57,35 +55,133 @@ function createHtml4opinions(targetElm){
     );
 }
 
-function fetchAndDisplayArticles(targetElm){
+
+function fetchAndDisplayArticles(targetElm,current,data4rendering) {
+
+
     const url = "https://wt.kpi.fei.tuke.sk/api/article";
+    let changeableUrl;
+    if(current==1){
+        changeableUrl = "http://wt.kpi.fei.tuke.sk/api/article/?max=20&offset="+0;
+    } else {
+        changeableUrl = "http://wt.kpi.fei.tuke.sk/api/article/?max=20&offset="+(19+((current-2)*20));
+    }
 
-    fetch(url)
-        .then(response =>{
-            if(response.ok){
-                return response.json();
-            }else{ //if we get server error
-                return Promise.reject(
-                    new Error(`Server answered with ${response.status}: ${response.statusText}.`));
-            }
-        })
-        .then(responseJSON => {
-            document.getElementById(targetElm).innerHTML =
-                Mustache.render(
-                    document.getElementById("template-articles").innerHTML,
-                    responseJSON
-                );
+    console.log(changeableUrl)
 
+    let article = [];
+    let idcounter = [];
+
+    initFetch(changeableUrl, idcounter)
+        .then( ()=> {
+            return loadMustache(url, article, idcounter, targetElm)
         })
-        .catch (error => { ////here we process all the failed promises
-            const errMsgObj = {errMessage:error};
-            document.getElementById(targetElm).innerHTML =
-                Mustache.render(
-                    document.getElementById("template-articles-error").innerHTML,
-                    errMsgObj
-                );
-        });
+        .then( ()=> {
+            rndrMustache(article, targetElm,data4rendering)
+        })
+        .catch(error=>{
+            console.log('Not working');
+            console.log(error);
+        })
 
 }
 
+function initFetch(changeableUrl,idcounter){
+
+    return fetch(changeableUrl)
+        .then(resp => {
+            return resp.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            //console.log(data.meta.max);
+            for (let x = 0; x < data.articles.length/*data.meta.max*/; x++) {
+                idcounter[x] = data.articles[x].id;
+            }
+
+            sessionStorage.setItem("totalarticles",data.meta.totalCount);
+        })
+    return Promise.resolve();
+}
+
+function rndrMustache(article,targetElm,data4rendering){
+    console.log(data4rendering)
+    data4rendering.articles =article;
+    document.getElementById(targetElm).innerHTML =
+        Mustache.render(
+            document.getElementById("template-articles").innerHTML,
+            data4rendering
+        );
+}
+
+function loadMustache(url,article,idcounter,targetElm){
+    let promise = [];
+    for (let i = 0; i < idcounter.length; i++) {
+        let url1 = url+'/'+idcounter[i];
+        // console.log(url2);
+
+        promise[i] = fetch(url1)
+          
+            .then(response => {
+ 
+                if (response.ok) {
+                    return response.json();
+                   
+                }
+            })
+            .then(responseJSON => {
+                console.log(responseJSON);
+                article[i] = responseJSON;
+            })
+            .catch(error => { 
+                const errMsgObj = {errMessage: error};
+                document.getElementById(targetElm).innerHTML =
+                    Mustache.render(
+                        document.getElementById("template-articles-error").innerHTML,
+                        errMsgObj
+                    );
+            });
+    }
+    return Promise.all(promise);
+}
+
+
+function createHtml4Main(targetElm, current, totalCount) {
+// console.log(sessionStorage.getItem
+    let totalArt = sessionStorage.getItem("totalarticles");
+    if(totalArt == null) {
+        totalCount = parseInt(totalCount);
+    }else{
+        totalCount=Math.ceil(totalArt/20);
+    }
+    current = parseInt(current);
+
+    const  data4rendering = {
+        currPage: current,
+        pageCount: totalCount
+    };
+
+    console.log(sessionStorage.getItem("page"))
+    console.log(current)
+    console.log(sessionStorage.getItem("lastpage"))
+
+    if(current===1 && 2 < sessionStorage.getItem("page")) {
+        data4rendering.currPage = sessionStorage.getItem("page");
+        current = parseInt(sessionStorage.getItem("page"));
+    }else{
+        sessionStorage.setItem("page",current)
+    }
+    if (current > 1){
+        data4rendering.prevPage = current - 1;
+    }
+    if(current < totalCount){
+        data4rendering.nextPage = current + 1;
+    }
+    sessionStorage.setItem("lastpage",current+1)
+    document.getElementById(targetElm).innerHTML = Mustache.render(
+        document.getElementById("template-articles").innerHTML,
+        data4rendering,
+    );
+    fetchAndDisplayArticles(targetElm,current,data4rendering);
+}
 
