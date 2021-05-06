@@ -140,6 +140,9 @@ img {
     padding-left: 0.5em;
 }
 
+#menuIts > a {
+    display: block;
+}
 #menuIts{
     position:absolute;
     padding: 3.5em;
@@ -148,11 +151,6 @@ img {
     border-radius: 5rem;
     background-color: rgb(134, 152, 234);
 }
-
-#menuIts > a {
-    display: block;
-}
-
 #menuTitle{
     border: 0;
     background-color: rgb(138, 130, 255);
