@@ -39,7 +39,7 @@ img:hover {
 }
 nav {
     background-color: rgb(254, 254, 246);
-
+    font-size:10px;
 }
 main {
     background-color: rgb(246, 248, 254);
@@ -64,6 +64,11 @@ li {
     color:rgb(109, 98, 139);
     font-size:2vw;
 }
+.link {
+    font-family: Helvetica, Arial, sans-serif;
+    color:rgb(109, 98, 139);
+    font-size:1vw;
+}
 a {
     font-family: Helvetica, Arial, sans-serif;
     color:rgb(109, 98, 139);
@@ -74,7 +79,6 @@ table, th, td {
     font-size:1vw;
     font-family: Helvetica, Arial, sans-serif;
 }
-
 
 div.a {
     text-align: center;
@@ -91,7 +95,7 @@ aside {
     width: 30%;
     padding-left: 10px;
     margin-left: 10px;
-    float: left;
+    float: right;
     font-style: italic;
     background-color: lightgray;
 }
@@ -132,9 +136,6 @@ img {
 }
 
 
-
-
-
 .menu {
     text-align: left;
     padding-left: 0.5em;
@@ -146,8 +147,6 @@ img {
 #menuIts{
     position:absolute;
     padding: 3.5em;
-    max-width: 8em;
-    min-width: 7em;
     border-radius: 5rem;
     background-color: rgb(134, 152, 234);
 }
@@ -167,13 +166,6 @@ img {
 
 .mnShow {display:block;}
 
-
-
-
-/***********************************************************************************************************/
-/*Properties related to the form and rendered opinions*/
-
-
 label{
     vertical-align: top;
     min-width: 5.5em;
@@ -183,3 +175,10 @@ form{
     padding-bottom: 1em;
 }
 
+.opinion-section {
+    background-color: rgb(234, 232, 212);
+}
+
+.article {
+    background-color: rgb(206, 223, 203);
+}

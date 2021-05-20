@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="author" content="Lukas Nemeth" />
+    <meta name="google-signin-client_id" content="1029678842004-cgp7r7hb11lbl8qm0t5cg7576944sea5.apps.googleusercontent.com">
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/screenStyle.css" />
 
@@ -21,7 +22,8 @@
 
             <nav id="menuIts" class="menu mnHide">
                 <a href="#welcome">Welcome!</a>
-                <a href="#articles/1/88">Articles</a>
+                <a href="#articles">Articles</a>
+                <a href="#artInsert">Add Article</a>
                 <a href="#opinions">Visitor opinions</a>
                 <a href="#addOpinion">Add your opinion</a>
             </nav>
@@ -29,6 +31,15 @@
         </div>
     </div>
 </header>
+
+<div>
+    <aside id="googleSignIn">
+        <div id="SignInButton"></div>
+        <div id="SignedIn">
+            Ste prihlásený ako <span id="userName"></span> <button onclick="signOut()">Odhlásiť sa</button>
+        </div>
+    </aside>
+</div>
 
 <main id="router-view">
 </main>
@@ -48,34 +59,31 @@
     <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
 </script>
 
-<script id="template-articles" type="text/template">
+<script id="template-articles-pages" type="text/template">
     <h2>Content</h2>
-
     <p>
         Displaying page {{currPage}} of {{pageCount}} pages.
     </p>
     <nav>
-        <p>
-            {{#prevPage}}
-            <a href="#articles/{{prevPage}}/{{pageCount}}"><< Previous page</a>
-            {{/prevPage}}
-            {{#nextPage}}
-            <a href="#articles/{{nextPage}}/{{pageCount}}">Next page >></a>
-
-            {{/nextPage}}
-        </p>
+        {{#prevPage}}
+        <a href="#articles/{{prevPage}}/{{pageCount}}" class="link"><< Previous page</a>
+        {{/prevPage}}
+        {{#nextPage}}
+        <a href="#articles/{{nextPage}}/{{pageCount}}" class="link">Next page >></a>
+        {{/nextPage}}
     </nav>
+</script>
 
-
+<script id="template-articles" type="text/template">
     {{#articles}}
-    <article>
-        <h1>{{title}}</h1>
+    <article class="article">
+        <h2><a href="{{detailLink}}">{{title}}</a></h2>
         {{#imageLink}}<img src="{{imageLink}}" class="image" alt="obrazok"><br>{{/imageLink}}
         {{#dateCreated}}<p class="date">{{dateCreated}}</p>{{/dateCreated}}
         <p>
             by {{author}}
             <br>
-            Content:{{content}}
+            Content:{{{content}}}
         </p>
         {{#tags}}<p class="tagsTag"> {{tags}}</p>{{/tags}}
 
@@ -103,7 +111,7 @@
     <h2>Comments :</h2>
     <article  id="artOpinions">
         {{#opinions}}
-        <section>
+        <section class="opinion-section">
             <div class="form-container-top">
                 <p class="form-name">
                     Name: {{#name}} {{name}}{{/name}}
@@ -135,7 +143,6 @@
 
         </section>
         {{/opinions}}
-
     </article>
 </script>
 
@@ -212,13 +219,150 @@
     </article>
 </script>
 
+<script id="template-article" type="text/template">
+    <article>
+        <h3>{{title}}</h3>
+        <p>
+            by {{author}}
+        </p>
+        {{#imageLink}}
+        <figure>
+            <img src="{{imageLink}}" alt="article figure" />
+        </figure>
+        {{/imageLink}}
+        <div>{{{content}}}</div>
+        <p>
+            Keywords:
+            {{tags}}
+        </p>
+    </article>
 
+    <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+    <a href="{{editLink}}" class="linkAsButton">Edit</a>
+    <a href="{{deleteLink}}" class="linkAsButton">Delete</a>
+    <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+
+    <p>
+    <div id="article-comments"></div>
+    </p>
+    <p>
+        <button type="button" value="Add Comment" id="add-comment" onclick="addComment()">Add Comment</button>
+    <form id="new-comment-frm" onsubmit="{{submitCommentLink}}" style="visibility: hidden">
+        <p>
+            <label for="comment-author" id="comment-author-lbl">Author</label>
+            <input type="text" name="comment-author" id="comment-author" size="30" maxlength="100" rows="1" placeholder="Enter your name" required/>
+            <br/>
+            <label for="comment-text" id="comment-text-lbl">Comment</label>
+            <input type="text" name="comment-text" id="comment-text" size="70" maxlength="500" rows="3" placeholder="Enter your comment" required/>
+        </p>
+        <button type="submit" value="Save Comment" id="save-comment">Save Comment</button>
+        <button type="button" value="Cancel" id="cancel-comment" onclick="cancelComment()">Cancel</button>
+    </form>
+    </p>
+</script>
+
+<script id="template-article-comments-pages" type="text/template">
+    <h2>Comments</h2>
+    <p>
+        Comments page {{currPage}} of {{pageCount}}
+    </p>
+    <p>
+        {{#prevPage}}
+        <a href="#artComments/{{articleId}}/{{offset}}/{{totalCount}}/{{prevPage}}/{{pageCount}}" class="link"><< Previous page</a>
+        {{/prevPage}}
+        {{#nextPage}}
+        <a href="#artComments/{{articleId}}/{{offset}}/{{totalCount}}/{{nextPage}}/{{pageCount}}" class="link">Next page >></a>
+        {{/nextPage}}
+    </p>
+</script>
+
+<script id="template-article-comments" type="text/template">
+    <article>
+        {{#comments}}
+        <section>
+            <div class="form-container-top">
+                <p class="form-name">
+                    Author: {{#author}} {{author}}{{/author}}
+                </p>
+            </div>
+            <div class="form-container">
+                <p class="form-name">
+                    Comment: {{#text}} {{text}}{{/text}}
+                </p>
+                --------------------------------------------------
+            </div>
+        </section>
+        {{/comments}}
+    </article>
+</script>
+
+<script id="template-article-form" type="text/template">
+    <article>
+        <h2>{{formTitle}}</h2> <br><br>
+
+        <form id="articleForm">
+            <label for="author">Author:</label>
+            <input type="text" name="author" id="author" value="{{author}}" size="50"
+                   title="Article author, max. length 100 characters."
+                   maxlength="100" placeholder="e.g. Ján Trieska" />
+            <br>
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" value="{{title}}" size="50"
+                   maxlength="100" pattern="\S[\S\s]*" placeholder="e.g. My story." required
+                   title="Article title, mandatory item, max. length: 100 characters.
+The first character must not be a space."  />
+            <br>
+            <label for="imageLink">Image (url):</label>
+            <input type="url" name="imageLink" id="imageLink" value="{{imageLink}}" size="50"
+                   title="Image URL, max. length 100 characters." maxlength="100"/>
+            <br>
+            <label></label>
+            <button type="button" id="btShowFileUpload">
+                Upload image
+            </button>
+
+            <fieldset class="added hiddenElm" id="fsetFileUpload">
+                <legend>Image Upload</legend>
+                <input type="file" id="flElm" name="file" accept="image/jpeg, image/png"/>
+                <br />
+                <button type="button" id="btFileUpload">
+                    Send image to server </button>
+                <button type="button" id="btCancelFileUpload">
+                    Cancel uploading </button>
+            </fieldset>
+
+
+            <br>
+            <label for="content">Article content:</label>
+            <textarea
+                    name="content" id="content" spellcheck="true" lang="sk"
+                    cols="50" rows="20" required
+                    title="Article content, mandatory item, can be plain text or in HTML.">
+              {{content}}
+            </textarea>
+            <br>
+            <label for="tags">Keywords:</label>
+            <input  type="text" name="tags" id="tags" value="{{tags}}" size="50"
+                    title="Keyword list, comma separated." placeholder="e.g. village, drama" />
+            <br> <br>
+            <button type="reset"> Reset Form </button>
+            <button type="submit"> {{submitBtTitle}} </button>
+
+        </form>
+    </article>
+
+    <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+    <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+
+</script>
 
 <!--JavaScript code, inserted as a module-->
 <script  type="module" src="js/index.js"></script>
 
-
-
+<script src="js/articleFormsHandler.js"></script>
+<script src="js/addComment.js"></script>
+<script src="js/82GoogleAccessBetter.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=startGSingIn" async defer></script>
 
 </body>
 </html>

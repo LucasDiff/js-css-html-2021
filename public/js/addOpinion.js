@@ -9,6 +9,7 @@ export default function processOpnFrmData(event){
     let nopGender;
     let nopChessPlayer;
 
+    const profile = renderUserInfo()
 
     const nopName = this.opinionsFrmElm.elements["nameElm"].value.trim();
     const nopEmail = this.opinionsFrmElm.elements["emailElm"].value.trim();
